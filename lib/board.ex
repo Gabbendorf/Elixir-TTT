@@ -21,7 +21,8 @@ defmodule Board do
   end
 
   def diagonal_lines(cells, size) do
-    [slice_diagonally(cells, size), slice_diagonally(List.flatten(reverse_lines(rows(cells, size))), size)]
+    [slice_diagonally(cells, size),
+     slice_diagonally(List.flatten(reverse_lines(rows(cells, size))), size)]
   end
 
   defp reverse_lines(lines) do
