@@ -37,4 +37,23 @@ defmodule BoardTest do
 
     assert diagonal_lines == [[1, 5, 9], [3, 5, 7]]
   end
+
+  test "confirms it is winning board" do
+    board = %Board{size: 3, cells: @cells}
+            |> Board.place_mark(0, :X)
+            |> Board.place_mark(1, :X)
+            |> Board.place_mark(2, :X)
+
+    assert Board.winning?(board) == true
+  end
+
+  test "confirms it is draw board" do
+    draw_cells = [:X, :O, :X,
+                  :O, :O, :X,
+                  :X, :X, :O]
+
+    board = %Board{size: 3, cells: draw_cells}
+
+    assert Board.draw?(board) == true
+  end
 end

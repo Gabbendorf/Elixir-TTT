@@ -25,6 +25,22 @@ defmodule Board do
      slice_diagonally(List.flatten(reverse_lines(rows(cells, size))), size)]
   end
 
+  defp all_lines(cells, size) do
+    rows(cells, size) ++ columns(cells, size) ++ diagonal_lines(cells, size)
+  end
+
+  def winning?(board) do
+    Enum.any?(all_lines(board.cells, board.size), fn(line) -> Enum.count(Enum.uniq(line)) == 1 end )
+  end
+
+  defp full?(board) do
+    Enum.all?(board.cells, fn(cell) -> Enum.member?([:X, :O], cell) end)
+  end
+
+  def draw?(board) do
+    !winning?(board) && full?(board)
+  end
+
   defp reverse_lines(lines) do
     lines
     |> Enum.map(fn(line) -> Enum.reverse(line) end)
