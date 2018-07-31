@@ -7,10 +7,10 @@ defmodule BoardTest do
 
   @cells Board.create_cells(3)
 
-  test "creates board with mark placed in given position" do
+  test "creates board with mark placed in cell corresponding to given position" do
     board = %Board{size: 3, cells: @cells}
 
-    new_board = Board.place_mark(board, 0, :X)
+    new_board = Board.place_mark(board, 1, :X)
 
     assert new_board.cells == [:X, 2, 3, 4, 5, 6, 7, 8, 9]
   end
@@ -39,9 +39,9 @@ defmodule BoardTest do
 
   test "confirms it is winning board" do
     board = %Board{size: 3, cells: @cells}
-            |> Board.place_mark(0, :X)
             |> Board.place_mark(1, :X)
             |> Board.place_mark(2, :X)
+            |> Board.place_mark(3, :X)
 
     assert Board.winning?(board) == true
   end

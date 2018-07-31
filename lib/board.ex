@@ -7,7 +7,7 @@ defmodule Board do
   end
 
   def place_mark(board, position, mark) do
-    %{board | cells: List.replace_at(board.cells, position, mark)}
+    %{board | cells: List.replace_at(board.cells, position - 1, mark)}
   end
 
   def rows(cells, size) do
