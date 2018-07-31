@@ -46,6 +46,15 @@ defmodule BoardTest do
     assert Board.winning?(board) == true
   end
 
+  test "figures out the winner" do
+    board = %Board{size: 3, cells: @cells}
+            |> Board.place_mark(1, :X)
+            |> Board.place_mark(2, :X)
+            |> Board.place_mark(3, :X)
+
+    assert Board.winner(board) == :X
+  end
+
   test "confirms it is draw board" do
     draw_cells = [:X, :O, :X,
                   :O, :O, :X,

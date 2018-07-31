@@ -30,7 +30,17 @@ defmodule Board do
   end
 
   def winning?(board) do
-    Enum.any?(all_lines(board.cells, board.size), fn(line) -> Enum.count(Enum.uniq(line)) == 1 end )
+    Enum.any?(all_lines(board.cells, board.size), fn(line) -> winning_line?(line) end )
+  end
+
+  def winner(board) do
+    Enum.filter(all_lines(board.cells, board.size), fn(line) -> winning_line?(line) end)
+    |> List.flatten
+    |> List.first
+  end
+
+  defp winning_line?(line) do
+    Enum.count(Enum.uniq(line)) == 1
   end
 
   defp full?(board) do
