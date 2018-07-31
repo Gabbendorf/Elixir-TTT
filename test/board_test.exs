@@ -1,6 +1,5 @@
 defmodule BoardTest do
   use ExUnit.Case
-  doctest Board
 
   test "creates 9 cells" do
     assert Board.create_cells(3) == [1, 2, 3, 4, 5, 6, 7, 8, 9]

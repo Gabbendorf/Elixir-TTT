@@ -1,6 +1,5 @@
 defmodule UITest do
   use ExUnit.Case
-  doctest UI
 
   import ExUnit.CaptureIO
 
