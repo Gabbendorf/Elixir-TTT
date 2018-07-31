@@ -27,5 +27,15 @@ defmodule UI do
   def declare_draw() do
     IO.puts "GAME OVER - it's draw!"
   end
+
+  def ask_play_again() do
+    IO.puts "Replay? [enter y or n]"
+    String.trim(IO.gets "")
+    |> String.downcase
+  end
+
+  def say_bye() do
+    IO.puts "See you soon!"
+  end
 end
 

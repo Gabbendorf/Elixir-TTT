@@ -21,6 +21,7 @@ defmodule TicTacToe do
         current_player: switch_player(game.current_player, game.board.marks)})
     else
       verdict(updated_board)
+      play_again()
     end
   end
 
@@ -32,6 +33,10 @@ defmodule TicTacToe do
       Board.draw?(board) ->
         UI.declare_draw()
     end
+  end
+
+  defp play_again() do
+    if UI.ask_play_again() == "y", do: start(new_game()), else: UI.say_bye()
   end
 
   defp ongoing?(board) do

@@ -53,4 +53,22 @@ defmodule UITest do
       UI.declare_draw()
     end) == "GAME OVER - it's draw!\n"
   end
+
+  test "asks to play again" do
+    assert capture_io([input: "y\n"], fn ->
+      UI.ask_play_again()
+    end) == "Replay? [enter y or n]\n"
+  end
+
+  test "registers and formats answer from user" do
+    assert capture_io([input: "Y\n"], fn ->
+      assert UI.ask_play_again() == "y"
+    end)
+  end
+
+  test "says bye to user" do
+    assert capture_io(fn ->
+      UI.say_bye()
+    end) == "See you soon!\n"
+  end
 end
