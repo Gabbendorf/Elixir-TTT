@@ -6,4 +6,5 @@
 erl_crash.dump
 *.ez
 ttt-*.tar
+.DS_Store
 
