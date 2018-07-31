@@ -6,7 +6,8 @@ defmodule UI do
 
   def prompt_for_starter do
     IO.puts "Who starts? [enter X or O]"
-    IO.gets ""
+    String.trim(IO.gets "")
+    |> String.upcase
   end
 
   def print_board(board) do

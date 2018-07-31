@@ -15,9 +15,9 @@ defmodule UITest do
     end) == "Who starts? [enter X or O]\n"
   end
 
-  test "registers starter chosen by user" do
+  test "registers and formats starter mark chosen by user" do
     assert capture_io([input: "x\n"], fn ->
-      assert UI.prompt_for_starter == "x\n"
+      assert UI.prompt_for_starter == "X"
     end)
   end
 
@@ -36,7 +36,7 @@ defmodule UITest do
     end) == "It's X's turn: choose a valid position on the board\n"
   end
 
-  test "registers position chosen by user" do
+  test "registers and formats position chosen by user" do
     assert capture_io([input: "1\n"], fn ->
       assert UI.prompt_for_position("X") == 1
     end)
