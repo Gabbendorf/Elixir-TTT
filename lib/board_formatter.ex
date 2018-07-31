@@ -1,8 +1,8 @@
 defmodule BoardFormatter do
 
   def format(board) do
-    board.cells
-    |> Board.rows(board.size)
+    board
+    |> Board.rows
     |> Enum.map_join("\n", fn(row) -> Enum.join(row, " | ") end)
   end
 end

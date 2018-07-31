@@ -10,31 +10,31 @@ defmodule Board do
     %{board | cells: List.replace_at(board.cells, position - 1, mark)}
   end
 
-  def rows(cells, size) do
-    Enum.chunk_every(cells, size)
+  def rows(board) do
+    Enum.chunk_every(board.cells, board.size)
   end
 
-  def columns(cells, size) do
-    rows(cells, size)
+  def columns(board) do
+    rows(board)
     |> List.zip
     |> Enum.map(&Tuple.to_list/1)
   end
 
-  def diagonal_lines(cells, size) do
-    [slice_diagonally(cells, size),
-     slice_diagonally(List.flatten(reverse_lines(rows(cells, size))), size)]
+  def diagonal_lines(board) do
+    [slice_diagonally(board.cells, board.size),
+     slice_diagonally(List.flatten(reverse_lines(rows(board))), board.size)]
   end
 
-  defp all_lines(cells, size) do
-    rows(cells, size) ++ columns(cells, size) ++ diagonal_lines(cells, size)
+  defp all_lines(board) do
+    rows(board) ++ columns(board) ++ diagonal_lines(board)
   end
 
   def winning?(board) do
-    Enum.any?(all_lines(board.cells, board.size), fn(line) -> winning_line?(line) end )
+    Enum.any?(all_lines(board), fn(line) -> winning_line?(line) end )
   end
 
   def winner(board) do
-    Enum.filter(all_lines(board.cells, board.size), fn(line) -> winning_line?(line) end)
+    Enum.filter(all_lines(board), fn(line) -> winning_line?(line) end)
     |> List.flatten
     |> List.first
   end

@@ -6,17 +6,18 @@ defmodule BoardTest do
   end
 
   @cells Board.create_cells(3)
+  @board_3x3 %Board{size: 3, cells: @cells}
 
   test "creates board with mark placed in cell corresponding to given position" do
     board = %Board{size: 3, cells: @cells}
 
-    new_board = Board.place_mark(board, 1, :X)
+    updated_board = Board.place_mark(board, 1, :X)
 
-    assert new_board.cells == [:X, 2, 3, 4, 5, 6, 7, 8, 9]
+    assert updated_board.cells == [:X, 2, 3, 4, 5, 6, 7, 8, 9]
   end
 
   test "creates rows" do
-    rows = Board.rows(@cells, 3)
+    rows = Board.rows(@board_3x3)
 
     assert rows == [
       [1, 2, 3],
@@ -26,24 +27,24 @@ defmodule BoardTest do
   end
 
   test "creates columns" do
-    columns = Board.columns(@cells, 3)
+    columns = Board.columns(@board_3x3)
 
     assert columns == [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
   end
 
   test "creates diagonal lines" do
-    diagonal_lines = Board.diagonal_lines(@cells, 3)
+    diagonal_lines = Board.diagonal_lines(@board_3x3)
 
     assert diagonal_lines == [[1, 5, 9], [3, 5, 7]]
   end
 
   test "confirms it is winning board" do
-    board = %Board{size: 3, cells: @cells}
+    winning_board = %Board{size: 3, cells: @cells}
             |> Board.place_mark(1, :X)
             |> Board.place_mark(2, :X)
             |> Board.place_mark(3, :X)
 
-    assert Board.winning?(board) == true
+    assert Board.winning?(winning_board) == true
   end
 
   test "figures out the winner" do
