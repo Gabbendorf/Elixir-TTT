@@ -3,6 +3,12 @@ defmodule UITest do
 
   import ExUnit.CaptureIO
 
+  test "introduces game" do
+    assert capture_io(fn ->
+      UI.introduce_ttt
+    end) == "THIS IS *** TIC-TAC-TOE ***\n"
+  end
+
   test "asks who starts" do
     assert capture_io([input: "x\n"], fn ->
       UI.prompt_for_starter
@@ -13,6 +19,15 @@ defmodule UITest do
     assert capture_io([input: "x\n"], fn ->
       assert UI.prompt_for_starter == "x\n"
     end)
+  end
+
+  test "prints board" do
+    assert capture_io(fn ->
+      board = %Board{size: 3, cells: Board.create_cells(3)}
+
+      assert UI.print_board(board)
+    end) == "1 | 2 | 3\n4 | 5 | 6\n7 | 8 | 9\n"
+
   end
 
   test "asks current player to choose a position" do

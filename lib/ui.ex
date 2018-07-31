@@ -1,8 +1,16 @@
 defmodule UI do
 
+  def introduce_ttt() do
+    IO.puts "THIS IS *** TIC-TAC-TOE ***"
+  end
+
   def prompt_for_starter do
     IO.puts "Who starts? [enter X or O]"
     IO.gets ""
+  end
+
+  def print_board(board) do
+    IO.puts BoardFormatter.format(board)
   end
 
   def prompt_for_position(player) do
