@@ -6,12 +6,10 @@ defmodule BoardTest do
   end
 
   @cells Board.create_cells(3)
-  @board_3x3 %Board{size: 3, cells: @cells}
+  @board_3x3 %Board{size: 3, cells: @cells, marks: [:X, :O]}
 
   test "creates board with mark placed in cell corresponding to given position" do
-    board = %Board{size: 3, cells: @cells}
-
-    updated_board = Board.place_mark(board, 1, :X)
+    updated_board = Board.place_mark(@board_3x3, 1, :X)
 
     assert updated_board.cells == [:X, 2, 3, 4, 5, 6, 7, 8, 9]
   end
@@ -61,7 +59,7 @@ defmodule BoardTest do
                   :O, :O, :X,
                   :X, :X, :O]
 
-    board = %Board{size: 3, cells: draw_cells}
+    board = %Board{size: 3, cells: draw_cells, marks: [:X, :O]}
 
     assert Board.draw?(board) == true
   end

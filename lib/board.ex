@@ -1,6 +1,6 @@
 defmodule Board do
 
-  defstruct [:size, :cells]
+  defstruct [:size, :cells, :marks]
 
   def create_cells(size) do
     Enum.to_list(1..size * size)
@@ -44,7 +44,7 @@ defmodule Board do
   end
 
   defp full?(board) do
-    Enum.all?(board.cells, fn(cell) -> Enum.member?([:X, :O], cell) end)
+    Enum.all?(board.cells, fn(cell) -> Enum.member?(board.marks, cell) end)
   end
 
   def draw?(board) do
