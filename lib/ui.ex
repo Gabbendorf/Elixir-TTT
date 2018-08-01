@@ -4,10 +4,15 @@ defmodule UI do
     IO.puts "THIS IS *** TIC-TAC-TOE ***"
   end
 
-  def prompt_for_starter do
+  def prompt_for_starter() do
     IO.puts "Who starts? [enter X or O]"
-    String.trim(IO.gets "")
-    |> String.upcase
+    get_starter(String.upcase(String.trim(IO.gets "")))
+  end
+
+  defp get_starter(input) when input in ["X", "O"], do: input
+  defp get_starter(_) do
+    IO.puts "Sorry, I didn't understand"
+    prompt_for_starter()
   end
 
   def print_board(board) do

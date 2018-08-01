@@ -9,15 +9,15 @@ defmodule UITest do
     end) == "THIS IS *** TIC-TAC-TOE ***\n"
   end
 
-  test "asks who starts" do
-    assert capture_io([input: "x\n"], fn ->
-      UI.prompt_for_starter
-    end) == "Who starts? [enter X or O]\n"
+  test "asks who starts until it gets valid input" do
+    assert capture_io([input: "m\nx\n"], fn ->
+      UI.prompt_for_starter()
+    end) == "Who starts? [enter X or O]\nSorry, I didn't understand\nWho starts? [enter X or O]\n"
   end
 
   test "registers and formats starter mark chosen by user" do
     assert capture_io([input: "x\n"], fn ->
-      assert UI.prompt_for_starter == "X"
+      assert UI.prompt_for_starter() == "X"
     end)
   end
 
