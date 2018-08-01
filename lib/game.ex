@@ -1,3 +1,3 @@
 defmodule Game do
-  defstruct [:board, :current_player]
+  defstruct [:board, :status, :current_player]
 end
