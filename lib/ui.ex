@@ -24,7 +24,14 @@ defmodule UI do
     get_position(Integer.parse(IO.gets ""), player, board)
   end
 
-  defp get_position({input_entered, "\n"}, _, _) when is_number(input_entered), do: input_entered
+  defp get_position({input_entered, "\n"}, player, board) when is_number(input_entered) do
+    if Board.position_available?(board, input_entered) do
+      input_entered
+    else
+      get_position(:error, player, board)
+    end
+  end
+
   defp get_position(:error, player, board) do
     IO.puts "#{player}, you chose an invalid position"
     print_board(board)

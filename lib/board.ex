@@ -71,6 +71,10 @@ defmodule Board do
     !winning?(board) && full?(board)
   end
 
+  def position_available?(board, position) do
+    Enum.member?(board.cells, position)
+  end
+
   defp reverse_lines(lines) do
     lines
     |> Enum.map(&Enum.reverse/1)

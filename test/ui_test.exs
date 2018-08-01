@@ -28,16 +28,11 @@ defmodule UITest do
 
   end
 
-  test "asks current player to choose a position until it gets valid input" do
-    assert capture_io([input: "m\n1\n"], fn ->
-      UI.prompt_for_position("X", empty_board_3x3())
-    end) == "It's X's turn: choose a valid position on the board\nX, you chose an invalid position\n1 | 2 | 3\n4 | 5 | 6\n7 | 8 | 9\nIt's X's turn: choose a valid position on the board\n"
-  end
-
-  test "registers and formats position chosen by user" do
-    assert capture_io([input: "1\n"], fn ->
-      assert UI.prompt_for_position("X", :board) == 1
+  test "asks current player for a position until it gets valid input, and formats it" do
+    message = capture_io([input: "m\n10\n1\n"], fn ->
+      assert UI.prompt_for_position("X", empty_board_3x3()) == 1
     end)
+    assert message == "It's X's turn: choose a valid position on the board\nX, you chose an invalid position\n1 | 2 | 3\n4 | 5 | 6\n7 | 8 | 9\nIt's X's turn: choose a valid position on the board\nX, you chose an invalid position\n1 | 2 | 3\n4 | 5 | 6\n7 | 8 | 9\nIt's X's turn: choose a valid position on the board\n"
   end
 
   test "declares winner" do
