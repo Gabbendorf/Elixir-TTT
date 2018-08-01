@@ -23,7 +23,11 @@ defmodule Board do
 
   def diagonal_lines(board) do
     [slice_diagonally(board.cells, board.size),
-     slice_diagonally(List.flatten(reverse_lines(rows(board))), board.size)]
+     slice_diagonally(reversed_cells_in(rows(board)), board.size)]
+  end
+
+  defp reversed_cells_in(lines) do
+    List.flatten(reverse_lines(lines))
   end
 
   defp all_lines(board) do
