@@ -20,12 +20,12 @@ defmodule TicTacToe do
         board: updated_board,
         current_player: switch_player(game.current_player, game.board.marks)})
     else
-      verdict(updated_board)
+      result(updated_board)
       play_again()
     end
   end
 
-  defp verdict(board) do
+  defp result(board) do
     UI.print_board(board)
     cond do
       Board.winning?(board) ->
