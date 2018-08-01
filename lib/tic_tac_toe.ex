@@ -18,14 +18,27 @@ defmodule TicTacToe do
     play(game)
   end
 
-  defp place_mark(game) do
-    %{game |
-      board: Board.place_mark(game.board, HumanPlayer.choose_position(game.current_player, game.board), game.current_player)}
+  defp play(game = %Game{status: :ongoing}) do
+    game
+    |> place_mark
+    |> update_status
+    |> next_move
   end
 
-  defp next_move(game) do
+  defp play(game) do
+    game
+    |> result
+    play_again()
+  end
+
+  defp place_mark(%Game{board: board, current_player: player} = game) do
     %{game |
-      current_player: switch_player(game.current_player, game.board.marks)
+      board: Board.place_mark(board, HumanPlayer.choose_position(player, board), player)}
+  end
+
+  defp next_move(%Game{board: board, current_player: current_player} = game) do
+    %{game |
+      current_player: switch_player(current_player, board.marks)
     }
     |> start
   end
@@ -40,7 +53,11 @@ defmodule TicTacToe do
   end
 
   defp play_again() do
-    if UI.ask_play_again() == "y", do: start(new_game()), else: UI.say_bye()
+    if UI.ask_play_again() == "y" do
+      start(new_game())
+    else
+      UI.say_bye()
+    end
   end
 
   defp update_status(game) do
@@ -52,19 +69,6 @@ defmodule TicTacToe do
       Board.ongoing?(game.board) ->
         game
     end
-  end
-
-  defp play(game = %Game{status: :ongoing}) do
-    game
-    |> place_mark
-    |> update_status
-    |> next_move
-  end
-
-  defp play(game = %Game{status: status}) when status in [:won, :draw] do
-    game
-    |> result
-    play_again()
   end
 
   defp switch_player(current_player, marks) do
