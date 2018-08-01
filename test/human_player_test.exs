@@ -5,7 +5,7 @@ defmodule HumanPlayerTest do
 
   test "returns a position on the board" do
     assert capture_io([input: "1\n"], fn ->
-      assert HumanPlayer.choose_position("X") == 1
+      assert HumanPlayer.choose_position("X", :board) == 1
     end)
   end
 end

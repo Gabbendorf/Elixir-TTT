@@ -23,22 +23,20 @@ defmodule UITest do
 
   test "prints board" do
     assert capture_io(fn ->
-      board = %Board{size: 3, cells: Board.create_cells(3)}
-
-      assert UI.print_board(board)
+      assert UI.print_board(empty_board_3x3())
     end) == "1 | 2 | 3\n4 | 5 | 6\n7 | 8 | 9\n"
 
   end
 
-  test "asks current player to choose a position" do
-    assert capture_io([input: "1\n"], fn ->
-      UI.prompt_for_position("X")
-    end) == "It's X's turn: choose a valid position on the board\n"
+  test "asks current player to choose a position until it gets valid input" do
+    assert capture_io([input: "m\n1\n"], fn ->
+      UI.prompt_for_position("X", empty_board_3x3())
+    end) == "It's X's turn: choose a valid position on the board\nX, you chose an invalid position\n1 | 2 | 3\n4 | 5 | 6\n7 | 8 | 9\nIt's X's turn: choose a valid position on the board\n"
   end
 
   test "registers and formats position chosen by user" do
     assert capture_io([input: "1\n"], fn ->
-      assert UI.prompt_for_position("X") == 1
+      assert UI.prompt_for_position("X", :board) == 1
     end)
   end
 
@@ -70,5 +68,9 @@ defmodule UITest do
     assert capture_io(fn ->
       UI.say_bye()
     end) == "See you soon!\n"
+  end
+
+  defp empty_board_3x3() do
+    %Board{size: 3, cells: Board.create_cells(3)}
   end
 end

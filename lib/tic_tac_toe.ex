@@ -20,7 +20,7 @@ defmodule TicTacToe do
 
   defp place_mark(game) do
     %{game |
-      board: Board.place_mark(game.board, HumanPlayer.choose_position(game.current_player), game.current_player)}
+      board: Board.place_mark(game.board, HumanPlayer.choose_position(game.current_player, game.board), game.current_player)}
   end
 
   defp next_move(game) do

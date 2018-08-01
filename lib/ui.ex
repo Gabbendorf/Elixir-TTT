@@ -19,10 +19,16 @@ defmodule UI do
     IO.puts BoardFormatter.format(board)
   end
 
-  def prompt_for_position(player) do
+  def prompt_for_position(player, board) do
     IO.puts "It's #{player}'s turn: choose a valid position on the board"
-    String.trim(IO.gets "")
-    |> String.to_integer
+    get_position(Integer.parse(IO.gets ""), player, board)
+  end
+
+  defp get_position({input_entered, "\n"}, _, _) when is_number(input_entered), do: input_entered
+  defp get_position(:error, player, board) do
+    IO.puts "#{player}, you chose an invalid position"
+    print_board(board)
+    prompt_for_position(player, board)
   end
 
   def declare_winner(player) do
