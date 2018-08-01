@@ -15,7 +15,8 @@ defmodule Board do
   end
 
   def columns(board) do
-    rows(board)
+    board
+    |> rows
     |> List.zip
     |> Enum.map(&Tuple.to_list/1)
   end
@@ -30,17 +31,28 @@ defmodule Board do
   end
 
   def winning?(board) do
-    Enum.any?(all_lines(board), fn(line) -> winning_line?(line) end )
+    board
+    |> all_lines
+    |> Enum.any?(&winning_line?/1)
   end
 
   def winner(board) do
-    Enum.filter(all_lines(board), fn(line) -> winning_line?(line) end)
+    board
+    |> all_lines
+    |> Enum.filter(&winning_line?/1)
+    |> get_winner_mark
+  end
+
+  defp get_winner_mark(winning_line) do
+    winning_line
     |> List.flatten
     |> List.first
   end
 
   defp winning_line?(line) do
-    Enum.count(Enum.uniq(line)) == 1
+    line
+    |> Enum.uniq
+    |> Enum.count == 1
   end
 
   defp full?(board) do
@@ -53,7 +65,7 @@ defmodule Board do
 
   defp reverse_lines(lines) do
     lines
-    |> Enum.map(fn(line) -> Enum.reverse(line) end)
+    |> Enum.map(&Enum.reverse/1)
   end
 
   defp slice_diagonally(cells, size) do
