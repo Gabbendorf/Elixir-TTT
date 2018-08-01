@@ -49,7 +49,7 @@ defmodule TicTacToe do
         %{game | status: :won}
       Board.draw?(game.board) ->
         %{game | status: :draw}
-      true ->
+      Board.ongoing?(game.board) ->
         game
     end
   end
@@ -64,7 +64,7 @@ defmodule TicTacToe do
   defp play(game = %Game{status: status}) when status in [:won, :draw] do
     game
     |> result
-    play_again
+    play_again()
   end
 
   defp switch_player(current_player, marks) do

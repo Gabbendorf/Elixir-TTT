@@ -34,6 +34,10 @@ defmodule Board do
     rows(board) ++ columns(board) ++ diagonal_lines(board)
   end
 
+  def ongoing?(board) do
+    !winning?(board) && !draw?(board)
+  end
+
   def winning?(board) do
     board
     |> all_lines
