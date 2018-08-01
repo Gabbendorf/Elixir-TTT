@@ -21,18 +21,6 @@ defmodule BoardTest do
     ]
   end
 
-  test "creates columns" do
-    columns = Board.columns(empty_3x3_board())
-
-    assert columns == [[1, 4, 7], [2, 5, 8], [3, 6, 9]]
-  end
-
-  test "creates diagonal lines" do
-    diagonal_lines = Board.diagonal_lines(empty_3x3_board())
-
-    assert diagonal_lines == [[1, 5, 9], [3, 5, 7]]
-  end
-
   test "confirms it is ongoing board" do
     assert Board.ongoing?(empty_3x3_board()) == true
   end

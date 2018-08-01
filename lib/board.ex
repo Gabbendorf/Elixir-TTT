@@ -14,14 +14,14 @@ defmodule Board do
     Enum.chunk_every(board.cells, board.size)
   end
 
-  def columns(board) do
+  defp columns(board) do
     board
     |> rows
     |> List.zip
     |> Enum.map(&Tuple.to_list/1)
   end
 
-  def diagonal_lines(board) do
+  defp diagonal_lines(board) do
     [slice_diagonally(board.cells, board.size),
      slice_diagonally(reversed_cells_in(rows(board)), board.size)]
   end
