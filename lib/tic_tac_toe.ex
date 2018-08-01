@@ -15,17 +15,18 @@ defmodule TicTacToe do
   defp start(game) do
     UI.print_board(game.board)
     updated_board = Board.place_mark(game.board, HumanPlayer.choose_position(game.current_player), game.current_player)
-    if ongoing?(updated_board) do
-      start(%{game |
-        board: updated_board,
-        current_player: switch_player(game.current_player, game.board.marks)})
-    else
-      result(updated_board)
-      play_again()
-    end
+    if ongoing?(updated_board), do: next_move(game, updated_board), else: result_and_replay(updated_board)
   end
 
-  defp result(board) do
+  defp next_move(game, updated_board) do
+    %{game |
+      board: updated_board,
+      current_player: switch_player(game.current_player, game.board.marks)
+    }
+    |> start
+  end
+
+  defp result_and_replay(board) do
     UI.print_board(board)
     cond do
       Board.winning?(board) ->
@@ -33,6 +34,7 @@ defmodule TicTacToe do
       Board.draw?(board) ->
         UI.declare_draw()
     end
+    play_again()
   end
 
   defp play_again() do
