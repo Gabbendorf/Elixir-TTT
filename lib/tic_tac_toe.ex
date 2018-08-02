@@ -14,7 +14,6 @@ defmodule TicTacToe do
   end
 
   defp start(game) do
-    UI.print_board(game.board)
     play(game)
   end
 
@@ -44,6 +43,7 @@ defmodule TicTacToe do
   end
 
   defp result(game) do
+    UI.print_board(game.board)
     cond do
       game.status == :won ->
         UI.declare_winner(Board.winner(game.board))
