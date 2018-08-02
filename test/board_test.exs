@@ -45,6 +45,21 @@ defmodule BoardTest do
     assert Board.draw?(draw_board()) == true
   end
 
+  test "confirms a position is available" do
+    assert Board.position_available?(empty_3x3_board(), 1)
+  end
+
+  test "confirms a position is out of range" do
+    assert Board.position_available?(empty_3x3_board(), 10) == false
+  end
+
+  test "confirms a position is already occupied" do
+    board = %Board{size: 3, cells: Board.create_cells(3)}
+            |> Board.place_mark(1, :X)
+
+    assert Board.position_available?(board, 1) == false
+  end
+
   defp draw_board() do
     draw_cells = [:X, :O, :X,
                   :O, :O, :X,
