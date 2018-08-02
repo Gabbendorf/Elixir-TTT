@@ -48,8 +48,13 @@ defmodule UI do
 
   def ask_play_again() do
     IO.puts "Replay? [enter y or n]"
-    String.trim(IO.gets "")
-    |> String.downcase
+    get_replay_answer(String.downcase(String.trim(IO.gets "")))
+  end
+
+  defp get_replay_answer(input) when input in ["y", "n"], do: input
+  defp get_replay_answer(_) do
+    IO.puts "I'm afraid you typed something wrong"
+    ask_play_again()
   end
 
   def say_bye() do
