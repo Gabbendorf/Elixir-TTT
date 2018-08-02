@@ -38,7 +38,7 @@ defmodule BoardTest do
   end
 
   test "confirms it is losing board if winner is different from passed player" do
-    assert Board.losing?(x_winning_board(), :Y) == true
+    assert Board.losing?(x_winning_board(), :O) == true
   end
 
   test "figures out the winner" do
@@ -64,6 +64,10 @@ defmodule BoardTest do
     assert Board.position_available?(board, 1) == false
   end
 
+  test "returns all available positions" do
+    assert Board.available_positions(x_winning_board()) == [4, 5, 6, 7, 8, 9]
+  end
+
   defp draw_board() do
     draw_cells = [:X, :O, :X,
                   :O, :O, :X,
@@ -77,7 +81,7 @@ defmodule BoardTest do
   end
 
   defp x_winning_board() do
-    %Board{size: 3, cells: Board.create_cells(3)}
+    %Board{size: 3, cells: Board.create_cells(3), marks: [:X, :O]}
     |> Board.place_mark(1, :X)
     |> Board.place_mark(2, :X)
     |> Board.place_mark(3, :X)

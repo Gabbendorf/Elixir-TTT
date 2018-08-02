@@ -20,7 +20,7 @@ defmodule TicTacToe do
   defp play(game = %Game{status: :ongoing}) do
     game
     |> place_mark
-    |> update_status
+    |> Game.update_status
     |> next_move
   end
 
@@ -37,7 +37,7 @@ defmodule TicTacToe do
 
   defp next_move(%Game{board: board, current_player: current_player} = game) do
     %{game |
-      current_player: switch_player(current_player, board.marks)
+      current_player: Game.switch_player(game)
     }
     |> start
   end
@@ -58,22 +58,5 @@ defmodule TicTacToe do
     else
       UI.say_bye()
     end
-  end
-
-  defp update_status(game = %Game{board: board, current_player: current_player}) do
-    cond do
-      Board.winning?(board) ->
-        %{game | status: :won}
-      Board.draw?(board) ->
-        %{game | status: :draw}
-      Board.ongoing?(board) ->
-        game
-      Board.losing?(board, current_player) ->
-        %{game | status: :lost}
-    end
-  end
-
-  defp switch_player(current_player, marks) do
-    Enum.find(marks, fn mark -> mark != current_player end)
   end
 end
