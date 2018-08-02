@@ -37,6 +37,10 @@ defmodule BoardTest do
     assert Board.winning?(x_winning_board()) == true
   end
 
+  test "confirms it is losing board if winner is different from passed player" do
+    assert Board.losing?(x_winning_board(), :Y) == true
+  end
+
   test "figures out the winner" do
     assert Board.winner(x_winning_board()) == :X
   end

@@ -42,12 +42,12 @@ defmodule TicTacToe do
     |> start
   end
 
-  defp result(game) do
-    UI.print_board(game.board)
+  defp result(%Game{board: board, status: status}) do
+    UI.print_board(board)
     cond do
-      game.status == :won ->
-        UI.declare_winner(Board.winner(game.board))
-      game.status == :draw ->
+      status == :won ->
+        UI.declare_winner(Board.winner(board))
+      status == :draw ->
         UI.declare_draw()
     end
   end
@@ -60,14 +60,16 @@ defmodule TicTacToe do
     end
   end
 
-  defp update_status(game) do
+  defp update_status(game = %Game{board: board, current_player: current_player}) do
     cond do
-      Board.winning?(game.board) ->
+      Board.winning?(board) ->
         %{game | status: :won}
-      Board.draw?(game.board) ->
+      Board.draw?(board) ->
         %{game | status: :draw}
-      Board.ongoing?(game.board) ->
+      Board.ongoing?(board) ->
         game
+      Board.losing?(board, current_player) ->
+        %{game | status: :lost}
     end
   end
 

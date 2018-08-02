@@ -44,6 +44,10 @@ defmodule Board do
     |> Enum.any?(&winning_line?/1)
   end
 
+  def losing?(board, current_player) do
+    Board.winning?(board) && Board.winner(board) != current_player
+  end
+
   def winner(board) do
     board
     |> all_lines
