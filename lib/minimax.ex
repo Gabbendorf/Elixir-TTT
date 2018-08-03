@@ -6,10 +6,23 @@ defmodule Minimax do
   def score(%Game{status: :draw}), do: 0
 
   def duplicate(game = %Game{board: board}) do
-    Enum.map(Board.available_positions(board), fn position -> %{game |
-      board: Board.place_mark(board, position, Game.switch_player(game)),
-      current_player: Game.switch_player(game)}
+    Enum.map(Board.available_positions(board), fn position ->
+      %{
+        game_with_move: %{ game |
+          board: Board.place_mark(board, position, Game.switch_player(game)),
+          current_player: Game.switch_player(game)
+        },
+        position: position
+      }
     end)
-    |> Enum.map(&Game.update_status/1)
+    |> update_all_statuses
+  end
+
+  defp update_all_statuses(duplicated_games) do
+    Enum.map(duplicated_games, fn duplicated_game -> %{
+      duplicated_game |
+      game_with_move: Game.update_status(duplicated_game.game_with_move)
+    }
+    end)
   end
 end
