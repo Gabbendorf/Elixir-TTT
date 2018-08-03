@@ -1,7 +1,7 @@
 defmodule Game do
   defstruct [:board, :status, :current_player]
 
-def update_status(game = %Game{board: board}) do
+  def update_status(game = %Game{board: board}) do
     cond do
       Board.winning?(board) ->
         %{game | status: :won}

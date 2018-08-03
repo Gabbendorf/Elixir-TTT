@@ -28,7 +28,7 @@ defmodule TicTacToe do
     game
     |> Game.result
     UI.print_board(board)
-    play_again()
+    play_again(UI.ask_play_again())
   end
 
   defp place_mark(%Game{board: board, current_player: player} = game) do
@@ -43,11 +43,6 @@ defmodule TicTacToe do
     |> start
   end
 
-  defp play_again() do
-    if UI.ask_play_again() == "y" do
-      start(new_game())
-    else
-      UI.say_bye()
-    end
-  end
+  defp play_again(answer) when answer == "y", do: start(new_game())
+  defp play_again(answer) when answer == "n", do: UI.say_bye()
 end
