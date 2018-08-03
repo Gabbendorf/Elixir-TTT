@@ -24,9 +24,10 @@ defmodule TicTacToe do
     |> next_move
   end
 
-  defp play(game) do
+  defp play(game = %Game{board: board}) do
     game
-    |> result
+    |> Game.result
+    UI.print_board(board)
     play_again()
   end
 
@@ -35,21 +36,11 @@ defmodule TicTacToe do
       board: Board.place_mark(board, HumanPlayer.choose_position(player, board), player)}
   end
 
-  defp next_move(%Game{board: board, current_player: current_player} = game) do
+  defp next_move(game) do
     %{game |
       current_player: Game.switch_player(game)
     }
     |> start
-  end
-
-  defp result(%Game{board: board, status: status}) do
-    UI.print_board(board)
-    cond do
-      status == :won ->
-        UI.declare_winner(Board.winner(board))
-      status == :draw ->
-        UI.declare_draw()
-    end
   end
 
   defp play_again() do
