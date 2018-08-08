@@ -43,6 +43,6 @@ defmodule TicTacToe do
     |> start
   end
 
-  defp play_again(answer) when answer == "y", do: start(new_game())
-  defp play_again(answer) when answer == "n", do: UI.say_bye()
+  defp play_again("y"), do: start(new_game())
+  defp play_again("n"), do: UI.say_bye()
 end
