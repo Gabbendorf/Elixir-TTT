@@ -15,10 +15,10 @@ defmodule BoardTest do
     rows = Board.rows(empty_3x3_board())
 
     assert rows == [
-      [1, 2, 3],
-      [4, 5, 6],
-      [7, 8, 9]
-    ]
+             [1, 2, 3],
+             [4, 5, 6],
+             [7, 8, 9]
+           ]
   end
 
   test "confirms it is ongoing board" do
@@ -58,8 +58,9 @@ defmodule BoardTest do
   end
 
   test "confirms a position is already occupied" do
-    board = %Board{size: 3, cells: Board.create_cells(3)}
-            |> Board.place_mark(1, :X)
+    board =
+      %Board{size: 3, cells: Board.create_cells(3)}
+      |> Board.place_mark(1, :X)
 
     assert Board.position_available?(board, 1) == false
   end
@@ -69,9 +70,7 @@ defmodule BoardTest do
   end
 
   defp draw_board() do
-    draw_cells = [:X, :O, :X,
-                  :O, :O, :X,
-                  :X, :X, :O]
+    draw_cells = [:X, :O, :X, :O, :O, :X, :X, :X, :O]
 
     %Board{size: 3, cells: draw_cells, marks: [:X, :O]}
   end

@@ -5,8 +5,10 @@ defmodule Game do
     cond do
       Board.winning?(board) ->
         %{game | status: :won}
+
       Board.draw?(board) ->
         %{game | status: :draw}
+
       Board.ongoing?(board) ->
         game
     end
@@ -19,6 +21,7 @@ defmodule Game do
   def result(%Game{board: board, status: :won}) do
     UI.declare_winner(Board.winner(board))
   end
+
   def result(%Game{status: :draw}) do
     UI.declare_draw()
   end

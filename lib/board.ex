@@ -1,9 +1,8 @@
 defmodule Board do
-
   defstruct [:size, :cells, :marks]
 
   def create_cells(size) do
-    Enum.to_list(1..size * size)
+    Enum.to_list(1..(size * size))
   end
 
   def place_mark(board, position, mark) do
@@ -17,13 +16,15 @@ defmodule Board do
   defp columns(board) do
     board
     |> rows
-    |> List.zip
+    |> List.zip()
     |> Enum.map(&Tuple.to_list/1)
   end
 
   defp diagonal_lines(board) do
-    [slice_diagonally(board.cells, board.size),
-     slice_diagonally(reversed_cells_in(rows(board)), board.size)]
+    [
+      slice_diagonally(board.cells, board.size),
+      slice_diagonally(reversed_cells_in(rows(board)), board.size)
+    ]
   end
 
   defp reversed_cells_in(lines) do
@@ -57,18 +58,18 @@ defmodule Board do
 
   defp get_winner_mark(winning_line) do
     winning_line
-    |> List.flatten
-    |> List.first
+    |> List.flatten()
+    |> List.first()
   end
 
   defp winning_line?(line) do
     line
-    |> Enum.uniq
-    |> Enum.count == 1
+    |> Enum.uniq()
+    |> Enum.count() == 1
   end
 
   defp full?(board) do
-    Enum.all?(board.cells, fn(cell) -> Enum.member?(board.marks, cell) end)
+    Enum.all?(board.cells, fn cell -> Enum.member?(board.marks, cell) end)
   end
 
   def draw?(board) do
