@@ -1,7 +1,6 @@
 defmodule TicTacToe do
-
   def run() do
-    start(new_game())
+    play(new_game())
   end
 
   defp new_game() do
@@ -13,65 +12,28 @@ defmodule TicTacToe do
     }
   end
 
-  defp start(game) do
-    play(game)
-  end
-
   defp play(game = %Game{status: :ongoing}) do
     game
     |> place_mark
-    |> update_status
+    |> Game.update_status()
     |> next_move
   end
 
-  defp play(game) do
-    game
-    |> result
-    play_again()
+  defp play(game = %Game{board: board}) do
+    Game.result(game)
+    UI.print_board(board)
+    play_again(UI.ask_play_again())
   end
 
   defp place_mark(%Game{board: board, current_player: player} = game) do
-    %{game |
-      board: Board.place_mark(board, HumanPlayer.choose_position(player, board), player)}
+    %{game | board: Board.place_mark(board, HumanPlayer.choose_position(player, board), player)}
   end
 
-  defp next_move(%Game{board: board, current_player: current_player} = game) do
-    %{game |
-      current_player: switch_player(current_player, board.marks)
-    }
-    |> start
+  defp next_move(game) do
+    %{game | current_player: Game.switch_player(game)}
+    |> play()
   end
 
-  defp result(game) do
-    UI.print_board(game.board)
-    cond do
-      game.status == :won ->
-        UI.declare_winner(Board.winner(game.board))
-      game.status == :draw ->
-        UI.declare_draw()
-    end
-  end
-
-  defp play_again() do
-    if UI.ask_play_again() == "y" do
-      start(new_game())
-    else
-      UI.say_bye()
-    end
-  end
-
-  defp update_status(game) do
-    cond do
-      Board.winning?(game.board) ->
-        %{game | status: :won}
-      Board.draw?(game.board) ->
-        %{game | status: :draw}
-      Board.ongoing?(game.board) ->
-        game
-    end
-  end
-
-  defp switch_player(current_player, marks) do
-    Enum.find(marks, fn mark -> mark != current_player end)
-  end
+  defp play_again("y"), do: play(new_game())
+  defp play_again("n"), do: UI.say_bye()
 end

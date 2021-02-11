@@ -1,9 +1,8 @@
 defmodule Board do
-
   defstruct [:size, :cells, :marks]
 
   def create_cells(size) do
-    Enum.to_list(1..size * size)
+    Enum.to_list(1..(size * size))
   end
 
   def place_mark(board, position, mark) do
@@ -12,26 +11,6 @@ defmodule Board do
 
   def rows(board) do
     Enum.chunk_every(board.cells, board.size)
-  end
-
-  defp columns(board) do
-    board
-    |> rows
-    |> List.zip
-    |> Enum.map(&Tuple.to_list/1)
-  end
-
-  defp diagonal_lines(board) do
-    [slice_diagonally(board.cells, board.size),
-     slice_diagonally(reversed_cells_in(rows(board)), board.size)]
-  end
-
-  defp reversed_cells_in(lines) do
-    List.flatten(reverse_lines(lines))
-  end
-
-  defp all_lines(board) do
-    rows(board) ++ columns(board) ++ diagonal_lines(board)
   end
 
   def ongoing?(board) do
@@ -44,27 +23,15 @@ defmodule Board do
     |> Enum.any?(&winning_line?/1)
   end
 
+  def losing?(board, current_player) do
+    Board.winning?(board) && Board.winner(board) != current_player
+  end
+
   def winner(board) do
     board
     |> all_lines
     |> Enum.filter(&winning_line?/1)
-    |> get_winner_mark
-  end
-
-  defp get_winner_mark(winning_line) do
-    winning_line
-    |> List.flatten
-    |> List.first
-  end
-
-  defp winning_line?(line) do
-    line
-    |> Enum.uniq
-    |> Enum.count == 1
-  end
-
-  defp full?(board) do
-    Enum.all?(board.cells, fn(cell) -> Enum.member?(board.marks, cell) end)
+    |> get_winner_mark()
   end
 
   def draw?(board) do
@@ -72,7 +39,55 @@ defmodule Board do
   end
 
   def position_available?(board, position) do
-    Enum.member?(board.cells, position)
+    member_of?(board.cells, position)
+  end
+
+  def available_positions(board) do
+    Enum.filter(board.cells, fn position -> !member_of?(board.marks, position) end)
+  end
+
+  defp columns(board) do
+    board
+    |> rows
+    |> List.zip()
+    |> Enum.map(&Tuple.to_list/1)
+  end
+
+  defp diagonal_lines(board) do
+    [
+      slice_diagonally(board.cells, board.size),
+      slice_diagonally(reversed_cells_in(rows(board)), board.size)
+    ]
+  end
+
+  defp reversed_cells_in(lines) do
+    lines
+    |> reverse_lines()
+    |> List.flatten()
+  end
+
+  defp all_lines(board) do
+    rows(board) ++ columns(board) ++ diagonal_lines(board)
+  end
+
+  defp get_winner_mark(winning_line) do
+    winning_line
+    |> List.flatten()
+    |> List.first()
+  end
+
+  defp winning_line?(line) do
+    line
+    |> Enum.uniq()
+    |> Enum.count() == 1
+  end
+
+  defp full?(board) do
+    Enum.all?(board.cells, fn cell -> member_of?(board.marks, cell) end)
+  end
+
+  defp member_of?(list, value) do
+    Enum.member?(list, value)
   end
 
   defp reverse_lines(lines) do
